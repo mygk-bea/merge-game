@@ -1,19 +1,19 @@
 export type ItemId = string; // ex: 'uuid-1234'
-export type CategoryId = string; // ex: 'ferramentas', 'plantas'
+export type CategoryId = string; // ex: 'shapes'
 
 export interface ItemDefinition {
-  id: string; // ex: 'sword_lvl_1'
+  id: string;
   name: string;
-  level: number; // o nível é fixo pois ao upar ele vira outro item
+  level: number; // O nível é fixo pois ao upar ele vira outro item
   categoryId: CategoryId;
-  mergeResultId?: string; // ex: 'sword_lvl_2'
+  mergeResultId?: string;
   value: number; // Quanto vale em moedas
   image: string;
 }
 
 export interface GameItem {
   id: ItemId;
-  definitionId: string; // Link para a definição (ex: 'sword_lvl_1')
+  definitionId: string; // Link para a definição (ex: 'triangle_1')
   isBubbled?: boolean; 
   /* 
   * Alguns merges podem criar itens extras (além do merge principal) em bolhas;
@@ -25,16 +25,15 @@ export interface GameItem {
 
 /** Array linear (0 a 63) visualizado como grid. */
 export interface GridSlot {
-  id: string; // ex: 'slot_0', 'slot_1'
+  id: string;
   index: number;
   item: GameItem | null; // Pode estar vazio ou ter um item
   isLocked: boolean; // Slots bloqueados que precisam de dinheiro/nível/diamantes para abrir
 }
 
-/** O estado global do jogo (O que vai para o Zustand) */
 export interface GameState {
   board: GridSlot[];
-  inventory: GridSlot[]; // Slots extras para guardar itens
+  inventory: GridSlot[];
   resources: {
     coins: number;
     gems: number;
