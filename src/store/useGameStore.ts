@@ -6,6 +6,8 @@ import type { GameState } from '../types/game';
 interface GameActions {
   addCoins: (amount: number) => void;
   // ...
+  debugDeleteItem: () => void;
+  debugAddItem: () => void;
   resetGame: () => void;
 }
 
@@ -36,6 +38,41 @@ export const useGameStore = create<GameStore>()(
             coins: state.resources.coins + amount
           },
         }))
+      },
+
+      debugDeleteItem: () => {
+        set((state) => {
+          const newBoard = [...state.board];
+          const filledIndex = newBoard.findIndex(slot => slot.item !== null);
+
+          if (filledIndex !== -1) {
+            newBoard[filledIndex] = {
+              ...newBoard[filledIndex],
+              item: null,
+            };
+          }
+
+          return { board: newBoard }
+        });
+      },
+
+      debugAddItem: () => {
+        set((state) => {
+          const newBoard = [...state.board];
+          const emptyIndex = newBoard.findIndex(slot => slot.item === null);
+
+          if (emptyIndex !== -1) {
+            newBoard[emptyIndex] = {
+              ...newBoard[emptyIndex],
+              item: {
+                id: crypto.randomUUID(),
+                definitionId: 'pentagon_3',
+              }
+            };
+          }
+
+          return { board: newBoard }
+        })
       },
 
       resetGame: () => {
